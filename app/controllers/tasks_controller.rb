@@ -4,7 +4,9 @@ class TasksController < ApplicationController
   before_action :correct_user, only: [:destroy,:edit,:show]
   
   def index
-    @tasks = Task.all
+    if logged_in?
+    @tasks = current_user.tasks.order(id: :desc).page(params[:page])
+    end
   end
 
   def show
